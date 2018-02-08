@@ -19,6 +19,10 @@ namespace TableStorage.Abstractions.Trie
 			_indexes = indexes ?? throw new ArgumentNullException(nameof(indexes));
 		}
 
+		/// <summary>
+		/// Drops the index in all managed indexes
+		/// </summary>
+		/// <returns>Task.</returns>
 		public Task DropIndexAsync()
 		{
 			var tasks = new Task[_indexes.Count];
@@ -32,6 +36,12 @@ namespace TableStorage.Abstractions.Trie
 			return Task.WhenAll(tasks);
 		}
 
+		/// <summary>
+		/// Indexes the entity in all managed indexes
+		/// </summary>
+		/// <param name="data">The data to index.</param>
+		/// <returns>Task.</returns>
+		/// <exception cref="System.ArgumentNullException">data</exception>
 		public Task IndexAsync(T data)
 		{
 			if (data == null)
@@ -51,6 +61,12 @@ namespace TableStorage.Abstractions.Trie
 			return Task.WhenAll(tasks);
 		}
 
+		/// <summary>
+		/// Deletes the data in all managed indexes
+		/// </summary>
+		/// <param name="data">The data to delete from indexes.</param>
+		/// <returns>Task.</returns>
+		/// <exception cref="System.ArgumentNullException">data</exception>
 		public Task DeleteAsync(T data)
 		{
 			if (data == null)
@@ -70,6 +86,17 @@ namespace TableStorage.Abstractions.Trie
 			return Task.WhenAll(tasks);
 		}
 
+		/// <summary>
+		/// Reindexes the entity in all managed indexes.
+		/// </summary>
+		/// <param name="oldData">The old data to reindex.</param>
+		/// <param name="newData">The new data to reindex.</param>
+		/// <returns>Task.</returns>
+		/// <exception cref="System.ArgumentNullException">
+		/// oldData
+		/// or
+		/// newData
+		/// </exception>
 		public Task ReindexAsync(T oldData, T newData)
 		{
 			if (oldData == null)
@@ -93,6 +120,19 @@ namespace TableStorage.Abstractions.Trie
 			return Task.WhenAll(tasks);
 		}
 
+		/// <summary>
+		/// Searches through all managed indexes
+		/// </summary>
+		/// <param name="term">The search term.</param>
+		/// <param name="dedupe">The dedupe function to remove duplicate entities returned from multiple indexes.</param>
+		/// <param name="pageSize">page size</param>
+		/// <returns>Task&lt;IEnumerable&lt;T&gt;&gt;.</returns>
+		/// <exception cref="System.ArgumentException">
+		/// term
+		/// or
+		/// pageSize
+		/// </exception>
+		/// <exception cref="System.ArgumentNullException">dedupe</exception>
 		public async Task<IEnumerable<T>> FindAsync(string term, Func<IEnumerable<T>, IEnumerable<T>> dedupe,
 			int pageSize = 10)
 		{
