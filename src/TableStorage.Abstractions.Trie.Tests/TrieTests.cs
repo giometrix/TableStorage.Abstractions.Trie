@@ -80,7 +80,7 @@ namespace TableStorage.Abstractions.Trie.Tests
 		}
 
 		[TestMethod]
-		public async Task index_with_minimum_of_one_character_returns_expected_results()
+		public async Task search_index_with_minimum_of_one_character_returns_expected_results()
 		{
 			var results = await _fullNameIndex.FindAsync("j");
 			Assert.AreEqual(2, results.Count());
@@ -90,14 +90,22 @@ namespace TableStorage.Abstractions.Trie.Tests
 		}
 
 		[TestMethod]
-		public async Task index_with_minimum_of_three_characters_returns_no_results_when_searching_less_than_three_characters()
+		public async Task search_index_honors_page_size()
+		{
+			var results = await _fullNameIndex.FindAsync("j", 1);
+			Assert.AreEqual(1, results.Count());
+		
+		}
+
+		[TestMethod]
+		public async Task search_index_with_minimum_of_three_characters_returns_no_results_when_searching_less_than_three_characters()
 		{
 			var results = await _emailIndex.FindAsync("j");
 			Assert.AreEqual(0, results.Count());
 		}
 
 		[TestMethod]
-		public async Task index_with_minimum_of_three_characters_returns_expected_results_when_searching_more_than_three_characters()
+		public async Task search_index_with_minimum_of_three_characters_returns_expected_results_when_searching_more_than_three_characters()
 		{
 			var results = await _emailIndex.FindAsync("jsmit");
 			Assert.AreEqual(1, results.Count());
@@ -348,6 +356,13 @@ namespace TableStorage.Abstractions.Trie.Tests
 		{
 			var results = await _multiIndexSearch.FindAsync("j", _dedupeFunction);
 			Assert.AreEqual(3, results.Count());
+		}
+
+		[TestMethod]
+		public async Task multi_index_search_honors_page_size()
+		{
+			var results = await _multiIndexSearch.FindAsync("j", _dedupeFunction, pageSize: 2);
+			Assert.AreEqual(2, results.Count());
 		}
 
 		[TestMethod]
