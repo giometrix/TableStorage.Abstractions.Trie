@@ -1,0 +1,1 @@
+# TableStorage.Abstractions.Trie
