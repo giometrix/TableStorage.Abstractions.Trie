@@ -49,9 +49,62 @@ _dedupeFunction = customers =>
 				return uniqueCustomers;
 			};
 ```
-## Benchmarks 
+### Querying a single index
+```csharp
+var results = await _fullNameIndex.FindAsync("j");
+```
+### Querying a multi index
+Querying a multi index is similar to querying the single index, but it requires the de-fupe function
+```csharp
+var results = await _multiIndexSearch.FindAsync("j", _dedupeFunction);
+```
+## Index Benchmarks 
 Note 1: These benchmarks were performed on an 5960X 8 core intel CPU with 64GB of RAM.  The netork connection is 400mb download and 40mb upload.  Results will vary with hardware and size of payload.  
 
 Note 2: One of the goals of these benchmarks was to find the best number for max connections, because the default number used by the Azure Table Storage SDK yields [terrible results](http://tk.azurewebsites.net/2012/12/10/greatly-increase-the-performance-of-azure-storage-cloudblobclient/).
 
 Note 3: These tests were run in an actual instance of Azure Table Storage.  This project runs terrible under the Azure Storage Emulator; probably because the emulator uses Sql Server LocalDB.
+
+### Single Index
+| Run           | Number Records|Num Connections|Elapsed Time (ms)|       
+| ------------- |:-------------:|:-------------:|:-------------:|
+|Run 1 | 500 | Default | 78969
+|Run 2 | 500 | Default | 83120
+|Run 3 | 500 | Default | 83579
+|Run 4 | 500 | 10 | 18214
+|Run 5 | 500 | 10 | 18236
+|Run 6 | 500 | 10 | 19803
+|Run 7 | 500 | 100 | 3200
+|Run 8 | 500 | 100 | 2878
+|Run 9 | 500 | 100 | 3321
+|Run 10 | 500 | 500 | 4561
+|Run 11 | 500 | 500 | 4617
+|Run 12 | 500 | 500 | 5139
+|Run 13 | 2000 | Default | 332174
+|Run 14 | 2000 | Default | 365315
+|Run 15 | 2000 | Default | 346757
+|Run 16 | 2000 | 10  | 97482
+|Run 17 | 2000 | 10  | 81003
+|Run 18 | 2000 | 10  | 81127
+|Run 19 | 2000 | 100 | 22199
+|Run 20 | 2000 | 100 | 10700
+|Run 21 | 2000 | 100 | 9991
+|Run 22 | 20000 | 500 | 11343
+|Run 23 | 20000 | 500 | 11146
+|Run 24 | 20000 | 500 | 9520
+|Run 22 | 20000 | 100 | 95109
+|Run 23 | 20000 | 100 | 113160
+|Run 24 | 20000 | 100 | 95105
+|Run 25 | 20000 | 500 | 91435
+|Run 26 | 20000 | 500 | 85268
+|Run 27 | 20000 | 500 | 76578
+|Run 28 | 20000 | 50 | 202670
+|Run 29 | 20000 | 50 | 164559
+|Run 30 | 20000 | 50 | 170916
+
+### Multi Index
+| Run           | Number Records|Elapsed Time (ms)|       
+| ------------- |:-------------:|:-------------:|
+|Run 1 | 2000 | 32776
+|Run 2 | 2000 | 31741
+|Run 3 | 2000 | 31308
