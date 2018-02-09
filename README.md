@@ -62,7 +62,7 @@ Querying a multi index is similar to querying the single index, but it requires 
 var results = await _multiIndexSearch.FindAsync("j", _dedupeFunction);
 ```
 ## Index Benchmarks 
-Note 1: These benchmarks were performed on an 5960X 8 core intel CPU with 64GB of RAM.  The netork connection is 400mb download and 40mb upload.  Results will vary with hardware and size of payload.  
+Note 1: These benchmarks were performed on an 5960X 8 core Intel CPU with 64GB of RAM.  The network connection is 400mb download and 40mb upload.  Results will vary with hardware and size of payload.  
 
 Note 2: One of the goals of these benchmarks was to find the best number for max connections, because the default number used by the Azure Table Storage SDK yields [terrible results](http://tk.azurewebsites.net/2012/12/10/greatly-increase-the-performance-of-azure-storage-cloudblobclient/).
 
