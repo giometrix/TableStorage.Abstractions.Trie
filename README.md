@@ -108,3 +108,17 @@ Note 3: These tests were run in an actual instance of Azure Table Storage.  This
 |Run 1 | 2000 | 32776
 |Run 2 | 2000 | 31741
 |Run 3 | 2000 | 31308
+
+## Query Benchmarks
+### Single Index
+| Run           | Elapsed Time (ms)|       
+| ------------- |:-------------:|
+|Run 1 | 77
+|Run 2 | 78
+|Run 3 | 45
+### Multi Index
+| Run           | Elapsed Time (ms)|       
+| ------------- |:-------------:|
+|Run 1 | 151
+|Run 2 | 83
+|Run 3 | 45
