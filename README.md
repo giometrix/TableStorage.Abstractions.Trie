@@ -1,4 +1,6 @@
 [![NuGet](https://img.shields.io/nuget/v/TableStorage.Abstractions.Trie.svg)](https://www.nuget.org/packages/TableStorage.Abstractions.Trie)
+[![Build status](https://ci.appveyor.com/api/projects/status/ww8nmyvjr2yjq86d?svg=true)](https://ci.appveyor.com/project/giometrix/tablestorage-abstractions-trie)
+
 # TableStorage.Abstractions.Trie
 This project creates an "index" in Azure Table Storage using a [trie](https://en.wikipedia.org/wiki/Trie)-like structure to enable type-ahead style "begins with" search scenarios, e.g. "Jo" will yield "John Smith, Joe Taylor, Josephine Baker."
 
