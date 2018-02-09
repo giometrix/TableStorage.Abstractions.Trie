@@ -18,9 +18,9 @@ namespace TableStorage.Abstractions.Trie.Tests
 		[TestInitialize]
 		public async Task Init()
 		{
-			_fullNameIndex = new TrieSearch<Customer>("trieUnitTestFullNameIndex", "UseDevelopmentStorage=true", c => c.Id);
-			_lastNameIndex = new TrieSearch<Customer>("trieUnitTestLastNameIndex", "UseDevelopmentStorage=true", c => c.Id);
-			_emailIndex = new TrieSearch<Customer>("trieUnitTestEmailIndex", "UseDevelopmentStorage=true", c => c.Id,
+			_fullNameIndex = new TrieSearch<Customer>("trieUnitTestFullNameIndex", "UseDevelopmentStorage=true", c => c.Id, 10);
+			_lastNameIndex = new TrieSearch<Customer>("trieUnitTestLastNameIndex", "UseDevelopmentStorage=true", c => c.Id, 10);
+			_emailIndex = new TrieSearch<Customer>("trieUnitTestEmailIndex", "UseDevelopmentStorage=true", c => c.Id, 10,
 				new TrieSearchOptions
 				{
 					MinimumIndexLength = 3
@@ -63,7 +63,7 @@ namespace TableStorage.Abstractions.Trie.Tests
 				MaximumIndexLength = 2
 			};
 
-			new TrieSearch<Customer>("test", "test", c=>c.Id, options);
+			new TrieSearch<Customer>("test", "test", c=>c.Id, options: options);
 		}
 
 		[TestMethod]
@@ -76,7 +76,7 @@ namespace TableStorage.Abstractions.Trie.Tests
 				MaximumIndexLength = 2
 			};
 
-			new TrieSearch<Customer>("#hello?!", "test", c => c.Id, options);
+			new TrieSearch<Customer>("#hello?!", "test", c => c.Id, options: options);
 		}
 
 		[TestMethod]
@@ -173,8 +173,8 @@ namespace TableStorage.Abstractions.Trie.Tests
 				Id = "2000"
 			};
 
-			var failIndex = new TrieSearch<Customer>("trieUnitTestsFailTest", "UseDevelopmentStorage=true", c => c.Id,
-				new TrieSearchOptions {ThrowOnMinimumIndexLengthNotMet = true, MinimumIndexLength = 3});
+			var failIndex = new TrieSearch<Customer>("trieUnitTestsFailTest", "UseDevelopmentStorage=true", c => c.Id, options:
+				new TrieSearchOptions {ThrowOnMinimumIndexLengthNotMet = true,  MinimumIndexLength = 3});
 
 			bool exceptionThrown = false;
 			try
@@ -206,7 +206,7 @@ namespace TableStorage.Abstractions.Trie.Tests
 				Id = "2000"
 			};
 
-			var index = new TrieSearch<Customer>("trieUnitTestsMaxLenTest", "UseDevelopmentStorage=true", c => c.Id,
+			var index = new TrieSearch<Customer>("trieUnitTestsMaxLenTest", "UseDevelopmentStorage=true", c => c.Id, options:
 				new TrieSearchOptions { MaximumIndexLength = 3 });
 
 
@@ -240,7 +240,7 @@ namespace TableStorage.Abstractions.Trie.Tests
 				Id = "2000"
 			};
 
-			var index = new TrieSearch<Customer>("trieUnitTestsMaxLenTest", "UseDevelopmentStorage=true", c => c.Id,
+			var index = new TrieSearch<Customer>("trieUnitTestsMaxLenTest", "UseDevelopmentStorage=true", c => c.Id, options:
 				new TrieSearchOptions { MaximumIndexLength = 3, ThrowOnMaximumIndexLengthExceeded = true});
 
 			bool exceptionThrown = false;
@@ -287,7 +287,7 @@ namespace TableStorage.Abstractions.Trie.Tests
 				Id = "2000"
 			};
 
-			var index = new TrieSearch<Customer>("trieUnitTestsConflictTest", "UseDevelopmentStorage=true", c => c.Id,
+			var index = new TrieSearch<Customer>("trieUnitTestsConflictTest", "UseDevelopmentStorage=true", c => c.Id, options:
 				new TrieSearchOptions { ThrowOnConflict = true});
 
 			bool exceptionThrown = false;

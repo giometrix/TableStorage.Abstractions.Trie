@@ -3,6 +3,7 @@ using System.Collections.Async;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -19,12 +20,32 @@ namespace TableStorage.Abstractions.Trie
 	/// <seealso cref="TableStorage.Abstractions.Trie.ITrieSearch{T}" />
 	public class TrieSearch<T> : ITrieSearch<T> where T : class, new()
 	{
+		public const int DefaultMaxNumberConnections = 100;
+
 		private readonly TrieSearchOptions _options;
 		private readonly PropertyInfo _rowKeyProperty;
 		private readonly TableStore<DynamicTableEntity> _tableStore;
 
-
-		public TrieSearch(string indexName, string storageConnectionString, Expression<Func<T, object>> rowKeyProperty, TrieSearchOptions options = null)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TrieSearch{T}"/> class.
+		/// </summary>
+		/// <param name="indexName">Name of the index.  Index name must follow all Azure Table Storage rules for table name</param>
+		/// <param name="storageConnectionString">The Azure storage connection string.</param>
+		/// <param name="rowKeyProperty">The row key property.</param>
+		/// <param name="maxNumberOfConnections">The maximum number of connections.  Analysis using test data showed 100 connections to 
+		/// be the sweet spot, but you are encouraged to test this yourself.  Set this to null to use the default value set by <see cref="ServicePointManager"/>
+		/// </param>
+		/// <param name="options">The options.</param>
+		/// <exception cref="System.ArgumentException">
+		/// indexName
+		/// or
+		/// MinimumIndexLength
+		/// or
+		/// RowKey must be string
+		/// or
+		/// maxNumberOfConnections
+		/// </exception>
+		public TrieSearch(string indexName, string storageConnectionString, Expression<Func<T, object>> rowKeyProperty, int? maxNumberOfConnections = DefaultMaxNumberConnections, TrieSearchOptions options = null)
 		{
 			if (!Regex.IsMatch(indexName, "^[A-Za-z][A-Za-z0-9]{2,62}$")) throw new ArgumentException(nameof(indexName));
 			_options = options ?? new TrieSearchOptions();
@@ -36,6 +57,17 @@ namespace TableStorage.Abstractions.Trie
 			_rowKeyProperty = typeof(T).GetProperty(propertyName);
 			if (_rowKeyProperty.PropertyType != typeof(string))
 				throw new ArgumentException("RowKey must be string");
+
+			if (maxNumberOfConnections.HasValue)
+			{
+				if(maxNumberOfConnections < 1)
+					throw new ArgumentException(nameof(maxNumberOfConnections));
+
+				var account = CloudStorageAccount.Parse(storageConnectionString);
+				var tableServicePoint = ServicePointManager.FindServicePoint(account.TableEndpoint);
+				if (tableServicePoint.ConnectionLimit != maxNumberOfConnections)
+					tableServicePoint.ConnectionLimit = maxNumberOfConnections.Value;
+			}
 
 			_tableStore =
 				new TableStore<DynamicTableEntity>(indexName, storageConnectionString, _options.NumberOfRetries, _options.RetryWaitTimeInSeconds);
