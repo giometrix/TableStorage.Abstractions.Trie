@@ -17,6 +17,7 @@ The index takes full advantage of the scalability of Azure Table Storage by part
 * `MultiIndexTrieSearch` manages multiple indexes, and allows you to query all of them at once and de-dupe the results.  For instance, suppose you want to index your customers by full name, last name, and email.  Let's use my name as an example (Giovanni Galbo) and suppose my email is gio@test.com.  Imagine we query "g".  This would yield results from all 3 indexes, but we'd only want one result to be presented.  This is accomplished by de-duping.  Let's use one more example, "Gina Smith."  Typing a "g" would yield Giovanni Galbo and Gina Smith.  Typing an "s" would yield just Gina Smith. The first results were 1 record from me (De-duped from 3 results) plus one for Gina, while the second result was returned from the last name index.  The beauty of the multi-index is that it's all handled for you.
 * Ability to set minimum index lengths.  For instance, if you don't want type ahead for less than 3 characters, you can reduce the size of your index by limiting it to 3 characters.
 * Ability to set a maximum index
+* Optional case sensitivity
 
 ## Usage
 ### Create a single index
