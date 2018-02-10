@@ -20,13 +20,13 @@ The index takes full advantage of the scalability of Azure Table Storage by part
 
 ## Usage
 ### Create a single index
-```charp
+```C#
 _fullNameIndex = new TrieSearch<Customer>("trieUnitTestFullNameIndex", "UseDevelopmentStorage=true", c => c.Id);
 ```
 Here we set the name of the index (which translates to an Azure Table Storage table name), connection string, and the identifier, which translates to the row key in Azure Table Storage.
 
 ### Creating a multi index
-```charp
+```C#
 _multiIndexSearch = new MultiIndexTrieSearch<Customer>(new Dictionary<ITrieSearch<Customer>, Func<Customer, string>>
 			{
 				[_fullNameIndex] = c => c.FirstName + " " + c.LastName,
@@ -39,7 +39,7 @@ Here we provide the multi index with a dictionary.  The dictionary keys are your
 ### The de-dupe function
 Currently you need to tell the multi index how to de-dupe the search results.  A future release may do this automatically for you, but for now you'll need to provide one.  Here is an example:
 
-```charp
+```C#
 _dedupeFunction = customers =>
 			{
 				var uniqueIds = customers.Select(c => c.Id).Distinct();
@@ -53,12 +53,12 @@ _dedupeFunction = customers =>
 			};
 ```
 ### Querying a single index
-```csharp
+```C#
 var results = await _fullNameIndex.FindAsync("j");
 ```
 ### Querying a multi index
 Querying a multi index is similar to querying the single index, but it requires the de-fupe function
-```csharp
+```C#
 var results = await _multiIndexSearch.FindAsync("j", _dedupeFunction);
 ```
 ## Index Benchmarks (Adding entities to the index)
