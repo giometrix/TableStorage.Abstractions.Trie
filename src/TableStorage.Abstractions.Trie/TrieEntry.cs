@@ -1,4 +1,4 @@
-﻿namespace TableStorage.Abstractions.Trie.Core
+﻿namespace TableStorage.Abstractions.Trie
 {
 	internal class TrieEntry<T>
 	{

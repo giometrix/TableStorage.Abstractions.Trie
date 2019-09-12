@@ -12,7 +12,7 @@ using Microsoft.WindowsAzure.Storage.Table;
 using TableStorage.Abstractions.Store;
 using TableStorage.Abstractions.TableEntityConverters;
 
-namespace TableStorage.Abstractions.Trie.Core
+namespace TableStorage.Abstractions.Trie
 {
 	/// <summary>
 	/// Manages a single index using a trie-like strategy to accomplish "begins with" searching in Azure Table Storage

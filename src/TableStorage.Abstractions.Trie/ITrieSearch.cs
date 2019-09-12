@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 
-namespace TableStorage.Abstractions.Trie.Core
+namespace TableStorage.Abstractions.Trie
 {
 	public interface ITrieSearch<T> where T : new()
 	{

@@ -1,4 +1,4 @@
-﻿namespace TableStorage.Abstractions.Trie.Core
+﻿namespace TableStorage.Abstractions.Trie
 {
 	public class TrieSearchOptions
 	{
