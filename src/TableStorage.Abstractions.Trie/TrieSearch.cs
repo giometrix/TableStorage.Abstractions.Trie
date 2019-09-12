@@ -159,7 +159,6 @@ namespace TableStorage.Abstractions.Trie
 			return _tableStore.GetRecordCountAsync();
 		}
 
-
 		/// <inheritdoc />
 		public async Task<IEnumerable<T>> GetAllIndexEntriesAsync()
 		{
@@ -204,7 +203,6 @@ namespace TableStorage.Abstractions.Trie
 			return DeleteAsync(index, key);
 		}
 
-
 		/// <summary>
 		///     Creates the index terms.
 		/// </summary>
@@ -225,7 +223,6 @@ namespace TableStorage.Abstractions.Trie
 
 			return terms;
 		}
-
 
 		/// <summary>
 		///     Gets the row key value.
