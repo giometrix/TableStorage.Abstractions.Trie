@@ -1,4 +1,4 @@
-﻿namespace TableStorage.Abstractions.Trie.Tests
+﻿namespace TableStorage.Abstractions.Trie.Core.Tests
 {
 	public class Customer
 	{

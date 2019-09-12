@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TableStorage.Abstractions.Trie
+namespace TableStorage.Abstractions.Trie.Core
 {
 	/// <summary>
 	/// Manages multiple indexes using a trie-like strategy to accomplish "begins with" searching in Azure Table Storage.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TableStorage.Abstractions.Trie.Tests
+namespace TableStorage.Abstractions.Trie.Core.Tests
 {
 	[TestClass]
 	public class TrieTests

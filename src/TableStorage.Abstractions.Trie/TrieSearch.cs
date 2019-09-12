@@ -9,9 +9,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using TableStorage.Abstractions.Store;
 using TableStorage.Abstractions.TableEntityConverters;
 
-namespace TableStorage.Abstractions.Trie
+namespace TableStorage.Abstractions.Trie.Core
 {
 	/// <summary>
 	/// Manages a single index using a trie-like strategy to accomplish "begins with" searching in Azure Table Storage
@@ -69,8 +70,8 @@ namespace TableStorage.Abstractions.Trie
 					tableServicePoint.ConnectionLimit = maxNumberOfConnections.Value;
 			}
 
-			_tableStore =
-				new TableStore<DynamicTableEntity>(indexName, storageConnectionString, _options.NumberOfRetries, _options.RetryWaitTimeInSeconds);
+            _tableStore =
+                new TableStore<DynamicTableEntity>(indexName, storageConnectionString, new Models.TableStorageOptions { Retries = _options.NumberOfRetries, RetryWaitTimeInSeconds = _options.RetryWaitTimeInSeconds });
 		}
 
 		/// <inheritdoc />
