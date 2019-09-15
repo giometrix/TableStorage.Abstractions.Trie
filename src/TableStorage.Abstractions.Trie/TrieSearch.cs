@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using TableStorage.Abstractions.Store;
 using TableStorage.Abstractions.TableEntityConverters;
 
 namespace TableStorage.Abstractions.Trie
@@ -69,8 +70,8 @@ namespace TableStorage.Abstractions.Trie
 					tableServicePoint.ConnectionLimit = maxNumberOfConnections.Value;
 			}
 
-			_tableStore =
-				new TableStore<DynamicTableEntity>(indexName, storageConnectionString, _options.NumberOfRetries, _options.RetryWaitTimeInSeconds);
+            _tableStore =
+                new TableStore<DynamicTableEntity>(indexName, storageConnectionString, new Models.TableStorageOptions { Retries = _options.NumberOfRetries, RetryWaitTimeInSeconds = _options.RetryWaitTimeInSeconds });
 		}
 
 		/// <inheritdoc />
@@ -158,7 +159,6 @@ namespace TableStorage.Abstractions.Trie
 			return _tableStore.GetRecordCountAsync();
 		}
 
-
 		/// <inheritdoc />
 		public async Task<IEnumerable<T>> GetAllIndexEntriesAsync()
 		{
@@ -203,7 +203,6 @@ namespace TableStorage.Abstractions.Trie
 			return DeleteAsync(index, key);
 		}
 
-
 		/// <summary>
 		///     Creates the index terms.
 		/// </summary>
@@ -224,7 +223,6 @@ namespace TableStorage.Abstractions.Trie
 
 			return terms;
 		}
-
 
 		/// <summary>
 		///     Gets the row key value.
