@@ -10,7 +10,9 @@
     <Description>An implementation of a trie-like data structure using Azure Table Storage to enable type-ahead style searching. Targets netcoreapp2.1, netstandard2.0 and net461.</Description>
     <Version>1.1.0</Version>
     <PackageProjectUrl>https://github.com/giometrix/TableStorage.Abstractions.Trie</PackageProjectUrl>
-    <PackageReleaseNotes>Converted projects to .Net Core and targets netcoreapp2.1, netstandard2.0 and net461.</PackageReleaseNotes>	
+    <PackageReleaseNotes>Converted projects to .Net Core and targets netcoreapp2.1, netstandard2.0 and net461.</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/giometrix/TableStorage.Abstractions.Trie</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>	
   </PropertyGroup>
 
   <ItemGroup>
